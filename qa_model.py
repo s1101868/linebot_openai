@@ -22,7 +22,7 @@ from langchain.chains import ConversationalRetrievalChain
 
 # 設定 OpenAI API 金鑰
 import os
-os.environ["OPENAI_API_KEY"] =""  # 請更換為您的 API 金鑰
+os.environ["OPENAI_API_KEY"] =os.getenv('OPENAI_API_KEY')  # 請更換為您的 API 金鑰
 
 class Document:
     def __init__(self, content, metadata=None):
