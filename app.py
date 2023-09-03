@@ -8,8 +8,8 @@ from qa_model import qa_function  # 导入你的 QA 模型函数的方式可能�
 app = Flask(__name__)
 
 # 用你的 Channel Secret 和 Channel Access Token 初始化 LineBotApi 和 WebhookHandler
-line_bot_api = LineBotApi('YOUR_CHANNEL_ACCESS_TOKEN')
-handler = WebhookHandler('YOUR_CHANNEL_SECRET')
+line_bot_api = LineBotApi('CHANNEL_ACCESS_TOKEN')
+handler = WebhookHandler('CHANNEL_SECRET')
 
 @app.route("/callback", methods=['POST'])
 def callback():
