@@ -34,7 +34,7 @@ class CSVLoader:
 
 def initialize_qa_system(file_path):
     # 指定檔案路徑
-    # file_path = "/content/test.csv"  # 請更換為您的 CSV 文件路徑
+    # file_path = "test.csv"  # 請更換為您的 CSV 文件路徑
     file_path = os.path.join(os.getcwd(), "test.csv")  # 使用当前工作目录
 
     # 建立加載器並加載文本
@@ -49,17 +49,6 @@ def initialize_qa_system(file_path):
     qa = ConversationalRetrievalChain.from_llm(ChatOpenAI(temperature=0.2), vectorstore.as_retriever())
 
     return qa
-
-@handler.add(MessageEvent, message=TextMessage)
-def handle_message(event):
-    user_message = event.message.text
-
-    # 使用 QA 模型获取回答
-    result = qa({"question": user_message + '(用繁體中文回答)', "chat_history": chat_history})
-    qa_answer = result['answer']
-
-    # 发送 QA 模型的回答给用户
-    line_bot_api.reply_message(event.reply_token, TextSendMessage(qa_answer))
 
 if __name__ == "__main__":
     qa_system = initialize_qa_system("test.csv")
