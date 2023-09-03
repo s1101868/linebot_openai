@@ -6,7 +6,7 @@ import openai
 import os
 
 #======這裡是呼叫的檔案內容=====
-from qa_function import *
+from qa_model import *
 #======這裡是呼叫的檔案內容=====
 
 # 设置OpenAI API的密钥
