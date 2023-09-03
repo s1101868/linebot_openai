@@ -9,4 +9,4 @@ install
 chromadb==0.3.29
 tiktoken
 arrow-cpp
-upgrade pip
+upgrade pandas
