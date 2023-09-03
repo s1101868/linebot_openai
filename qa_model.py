@@ -6,6 +6,11 @@ from linebot import WebhookHandler, LineBotApi
 from linebot.models import MessageEvent, TextMessage, TextSendMessage
 import os
 
+#======這裡是呼叫的檔案內容=====
+from qa_function import *
+#======這裡是呼叫的檔案內容=====
+
+
 # 設定 OpenAI API 金鑰
 os.environ["OPENAI_API_KEY"] = os.getenv('OPENAI_API_KEY')  # 請更換為您的 API 金鑰
 
