@@ -7,6 +7,9 @@ import os
 
 #======這裡是呼叫的檔案內容=====
 from qa_model import *
+from linebot.models import MessageEvent*
+from linebot.models import TextMessage*
+from linebot.models import TextSendMessage*
 #======這裡是呼叫的檔案內容=====
 
 # 设置OpenAI API的密钥
