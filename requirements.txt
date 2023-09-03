@@ -6,3 +6,4 @@ Pillow
 langchain==0.0.279
 pypdf
 install
+chromadb
