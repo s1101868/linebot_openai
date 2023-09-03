@@ -2,7 +2,7 @@ line-bot-sdk
 flask
 openai
 gunicorn
-csv
-os
-LineBotApi
-WebhookHandler
+Pillow
+langchain
+sentence_transformers chromadb tiktoken openai
+pypdf
