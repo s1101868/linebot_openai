@@ -47,8 +47,6 @@ vectorstore = Chroma.from_documents(texts, embeddings)
 qa = ConversationalRetrievalChain.from_llm(ChatOpenAI(temperature=0.2), vectorstore.as_retriever())
 
 chat_history = []
-while True:
-    query = input('\nQuestion: ')
     if not query:
         break
     result = qa({"question": query + '(用繁體中文回答)', "chat_history": chat_history})
