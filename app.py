@@ -1,49 +1,61 @@
 from flask import Flask, request, abort
-from linebot import (
-    LineBotApi, WebhookHandler
-)
-from linebot.exceptions import (
-    InvalidSignatureError
-)
-from linebot.models import (
-    MessageEvent, TextMessage, TextSendMessage
-)
+from linebot import LineBotApi, WebhookHandler
+from linebot.exceptions import InvalidSignatureError
+from linebot.models import MessageEvent, TextMessage, TextSendMessage
+import openai
 import os
 
-# 导入你的 QA 模型函数
-from qa_model import qa_function
+# 设置OpenAI API的密钥
+openai.api_key = os.getenv('OPENAI_API_KEY')
 
+# 初始化Line Bot
 app = Flask(__name__)
-
-# Channel Access Token 和 Channel Secret，确保你的环境变量中有这些值
 line_bot_api = LineBotApi(os.getenv('CHANNEL_ACCESS_TOKEN'))
 handler = WebhookHandler(os.getenv('CHANNEL_SECRET'))
 
-# 处理 LINE Bot 的 Webhook 请求
+# 定义QA函数
+def qa_function(user_input):
+    # 使用GPT-3模型来生成回答
+    response = openai.Completion.create(
+        model="text-davinci-003",
+        prompt=user_input,
+        temperature=0.7,
+        max_tokens=50
+    )
+
+    # 提取生成的回答文本
+    answer = response.choices[0].text.strip()
+
+    return answer
+
+# 处理Line Bot的Webhook请求
 @app.route("/callback", methods=['POST'])
 def callback():
     signature = request.headers['X-Line-Signature']
     body = request.get_data(as_text=True)
+
     try:
         handler.handle(body, signature)
     except InvalidSignatureError:
         abort(400)
+
     return 'OK'
 
-# 处理用户发送的消息
+# 处理用户消息
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    msg = event.message.text
+    user_message = event.message.text
 
-    # 使用 QA 模型获取回答
-    qa_answer = qa_function(msg)
+    # 使用QA模型获取回答
+    qa_answer = qa_function(user_message)
 
-    # 发送 QA 模型的回答给用户
+    # 发送回答给用户
     line_bot_api.reply_message(event.reply_token, TextSendMessage(qa_answer))
 
+# 启动Flask应用
 if __name__ == "__main__":
-    # 获取端口号，如果没有设置，默认使用 5000
     port = int(os.environ.get('PORT', 5000))
     app.run(host='0.0.0.0', port=port)
+
 
 
