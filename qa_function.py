@@ -1,7 +1,7 @@
 import openai
 
 # 设置OpenAI API的密钥
-openai.api_key = "OPENAI_API_KEY"
+openai.api_key = os.getenv('OPENAI_API_KEY')
 
 def qa_function(user_input):
     # 使用GPT-3模型来生成回答
