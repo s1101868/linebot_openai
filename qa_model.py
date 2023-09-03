@@ -7,12 +7,6 @@ Original file is located at
     https://colab.research.google.com/drive/17cs-SFLUH6DfgArLl4hzemQIttLIYht6
 """
 
-!pip install langchain
-!pip install sentence_transformers chromadb tiktoken openai
-
-!pip install pypdf
-
-pip install Pillow
 
 import csv
 from langchain.embeddings.openai import OpenAIEmbeddings
@@ -39,7 +33,7 @@ class CSVLoader:
             return [Document(", ".join(row)) for row in reader]
 
 # 指定檔案路徑
-file_path = "/content/test.csv"  # 請更換為您的 CSV 文件路徑
+file_path = "test.csv"  # 請更換為您的 CSV 文件路徑
 
 # 建立加載器並加載文本
 loader = CSVLoader(file_path)
