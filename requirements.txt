@@ -5,7 +5,6 @@ gunicorn
 Pillow
 langchain==0.0.279
 pypdf
-install
 chromadb==0.3.29
 tiktoken
 pandas==1.5.3
