@@ -3,10 +3,16 @@ from langchain.embeddings.openai import OpenAIEmbeddings
 from langchain.vectorstores import Chroma
 from langchain.chat_models import ChatOpenAI
 from langchain.chains import ConversationalRetrievalChain
+from linebot import WebhookHandler, LineBotApi
+from linebot.models import MessageEvent, TextMessage, TextSendMessage
+import os
 
 # 設定 OpenAI API 金鑰
-import os
 os.environ["OPENAI_API_KEY"] = os.getenv('OPENAI_API_KEY')  # 請更換為您的 API 金鑰
+
+# 初始化 LINE Bot
+line_bot_api = LineBotApi("CHANNEL_ACCESS_TOKEN")
+handler = WebhookHandler("CHANNEL_SECRET")
 
 class Document:
     def __init__(self, content, metadata=None):
@@ -20,33 +26,39 @@ class CSVLoader:
     def load(self):
         with open(self.file_path, 'r', encoding='utf-8') as file:
             reader = csv.reader(file)
-            return [Document(row[0]) for row in reader]
+            return [Document(", ".join(row)) for row in reader]
 
-# 指定檔案路徑
-file_path = "test.csv"  # 請更換為您的 CSV 文件路徑
+def initialize_qa_system(file_path):
+    # 指定檔案路徑
+    # file_path = "/content/test.csv"  # 請更換為您的 CSV 文件路徑
+    file_path = os.path.join(os.getcwd(), "test.csv")  # 使用当前工作目录
 
-# 建立加載器並加載文本
-loader = CSVLoader(file_path)
-texts = loader.load()
+    # 建立加載器並加載文本
+    loader = CSVLoader(file_path)
+    texts = loader.load()
 
-# 嵌入和向量存儲
-embeddings = OpenAIEmbeddings()
-vectorstore = Chroma.from_documents(texts, embeddings)
+    # 嵌入和向量存儲
+    embeddings = OpenAIEmbeddings()
+    vectorstore = Chroma.from_documents(texts, embeddings)
 
-# 建立對話鏈
-qa = ConversationalRetrievalChain.from_llm(ChatOpenAI(temperature=0.2), vectorstore.as_retriever())
+    # 建立對話鏈
+    qa = ConversationalRetrievalChain.from_llm(ChatOpenAI(temperature=0.2), vectorstore.as_retriever())
 
-chat_history = []
+    return qa
 
-# 處理 LINE Bot 的消息
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     user_message = event.message.text
 
     # 使用 QA 模型获取回答
-    qa_answer = qa_function(user_message)  # 请确保定义了 qa_function
+    result = qa({"question": user_message + '(用繁體中文回答)', "chat_history": chat_history})
+    qa_answer = result['answer']
 
     # 发送 QA 模型的回答给用户
     line_bot_api.reply_message(event.reply_token, TextSendMessage(qa_answer))
 
+if __name__ == "__main__":
+    qa_system = initialize_qa_system("test.csv")
+    chat_history = []  # 初始化聊天历史
+   
 
