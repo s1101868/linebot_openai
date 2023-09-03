@@ -5,6 +5,10 @@ from linebot.models import MessageEvent, TextMessage, TextSendMessage
 import openai
 import os
 
+#======這裡是呼叫的檔案內容=====
+from QA_function import *
+#======這裡是呼叫的檔案內容=====
+
 # 设置OpenAI API的密钥
 openai.api_key = os.getenv('OPENAI_API_KEY')
 
@@ -47,7 +51,7 @@ def handle_message(event):
     user_message = event.message.text
 
     # 使用QA模型获取回答
-    qa_answer = qa_function(user_message)
+    qa_answer = QA_function(user_message)
 
     # 发送回答给用户
     line_bot_api.reply_message(event.reply_token, TextSendMessage(qa_answer))
