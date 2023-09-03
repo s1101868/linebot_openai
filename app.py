@@ -4,18 +4,18 @@ from linebot.exceptions import InvalidSignatureError
 from linebot.models import MessageEvent, TextMessage, TextSendMessage
 from qa_model import qa_function  # 导入你的 QA 模型函数的方式可能不同，根据实际情况修改导入语句
 
-
 app = Flask(__name__)
 
-# 用你的 Channel Secret 和 Channel Access Token 初始化 LineBotApi 和 WebhookHandler
-line_bot_api = LineBotApi('CHANNEL_ACCESS_TOKEN')
-handler = WebhookHandler('CHANNEL_SECRET')
+# 假设你的环境变量已经正确设置
+# Channel Access Token
+line_bot_api = LineBotApi(os.getenv('CHANNEL_ACCESS_TOKEN'))
+# Channel Secret
+handler = WebhookHandler(os.getenv('CHANNEL_SECRET'))
 
 @app.route("/callback", methods=['POST'])
 def callback():
     # 获取请求的头部信息
     signature = request.headers['X-Line-Signature']
-
     # 获取请求的主体内容
     body = request.get_data(as_text=True)
 
@@ -31,15 +31,18 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     msg = event.message.text
-    GPT_answer = GPT_response(msg)  # 使用 GPT 模型获取初始回答
 
-    # 使用 QA 模型获取更准确的回答
+    # 使用 QA 模型获取回答
     qa_answer = qa_function(msg)
 
-    # 输出 QA 模型的回答
-    print(qa_answer)
-
+    # 发送 QA 模型的回答给用户
     line_bot_api.reply_message(event.reply_token, TextSendMessage(qa_answer))
+
+import os
+
+if __name__ == "__main__":
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port)
 
 
 
