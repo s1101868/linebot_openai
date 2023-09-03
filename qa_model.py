@@ -6,6 +6,9 @@ from langchain.chains import ConversationalRetrievalChain
 from linebot.models import TextSendMessage
 # 設定 OpenAI API 金鑰
 
+import os
+print(os.getenv("OPENAI_API_KEY"))
+
 class Document:
     def __init__(self, content, metadata=None):
         self.page_content = content
