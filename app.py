@@ -5,9 +5,6 @@ from linebot.models import MessageEvent, TextMessage, TextSendMessage
 import openai
 import os
 
-#======這裡是呼叫的檔案內容=====
-from qa_model import *
-#======這裡是呼叫的檔案內容=====
 
 # 设置OpenAI API的密钥
 openai.api_key = os.getenv('OPENAI_API_KEY')
