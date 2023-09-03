@@ -6,7 +6,7 @@ from langchain.chains import ConversationalRetrievalChain
 from linebot.models import TextSendMessage
 # 設定 OpenAI API 金鑰
 import os
-os.environ["OPENAI_API_KEY"] ="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"  # 請更換為您的 API 金鑰
+os.environ["OPENAI_API_KEY"] =" "  # 請更換為您的 API 金鑰
 
 class Document:
     def __init__(self, content, metadata=None):
