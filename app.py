@@ -51,10 +51,10 @@ def handle_message(event):
     user_message = event.message.text
 
     # 使用QA模型获取回答
-    qa_answer = qa_function(user_message)
+    qa_answer = send_message(user_message)
 
     # 发送回答给用户
-    line_bot_api.reply_message(event.reply_token, TextSendMessage(qa_answer))
+    line_bot_api.reply_message(event.reply_token,qa_answer)
 
 # 启动Flask应用
 if __name__ == "__main__":
