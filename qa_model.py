@@ -47,8 +47,15 @@ vectorstore = Chroma.from_documents(texts, embeddings)
 qa = ConversationalRetrievalChain.from_llm(ChatOpenAI(temperature=0.2), vectorstore.as_retriever())
 
 chat_history = []
-    if not query:
-        break
-    result = qa({"question": query + '(用繁體中文回答)', "chat_history": chat_history})
-    print('A:', result['answer'])
-    chat_history.append((query, result['answer']))
+
+   # 處理 LINE Bot 的消息
+@handler.add(MessageEvent, message=TextMessage)
+def handle_message(event):
+    user_message = event.message.text
+
+    # 使用 QA 模型获取回答
+    qa_answer = qa_function(user_message)
+
+    # 发送 QA 模型的回答给用户
+    line_bot_api.reply_message(event.reply_token, TextSendMessage(qa_answer))
+
