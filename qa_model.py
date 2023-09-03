@@ -28,10 +28,10 @@ class CSVLoader:
         self.file_path = file_path
 
     def load(self):
-        with open(self.file_path, 'r', encoding='utf-8') as file:
-            reader = csv.reader(file)
-            return [Document(", ".join(row)) for row in reader]
-
+    with open(self.file_path, 'r', encoding='utf-8') as file:
+        reader = csv.reader(file)
+        return [Document(row[0]) for row in reader]
+        
 # 指定檔案路徑
 file_path = "test.csv"  # 請更換為您的 CSV 文件路徑
 
