@@ -8,5 +8,5 @@ pypdf
 install
 chromadb==0.3.29
 tiktoken
-pandas
-pyarrow
+pandas==1.5.3
+pyarrow==9.0.0
