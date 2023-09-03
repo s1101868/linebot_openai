@@ -1,6 +1,5 @@
 import csv
 from langchain.embeddings.openai import OpenAIEmbeddings
-from langchain.vectorstores import Chroma
 from langchain.chat_models import ChatOpenAI
 from langchain.chains import ConversationalRetrievalChain
 from linebot import WebhookHandler, LineBotApi
