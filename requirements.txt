@@ -6,3 +6,4 @@ Pillow
 langchain
 sentence_transformers chromadb tiktoken openai
 pypdf
+install
