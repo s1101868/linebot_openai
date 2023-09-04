@@ -1,18 +1,10 @@
-import openai
+import psutil
 
-# 设置OpenAI API的密钥
-openai.api_key = os.getenv('OPENAI_API_KEY')
+# 获取内存信息
+memory_info = psutil.virtual_memory()
 
-def qa_function(user_input):
-    # 使用GPT-3模型来生成回答
-    response = openai.Completion.create(
-        model="text-davinci-003",
-        prompt=user_input,
-        temperature=0.7,
-        max_tokens=50
-    )
+# 打印内存信息
+print("总内存容量 (GB):", memory_info.total / (1024 ** 3))  # 转换为GB
+print("已使用内存 (GB):", memory_info.used / (1024 ** 3))  # 转换为GB
+print("可用内存 (GB):", memory_info.available / (1024 ** 3))  # 转换为GB
 
-    # 提取生成的回答文本
-    answer = response.choices[0].text.strip()
-
-    return answer
