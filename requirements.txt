@@ -5,7 +5,7 @@ gunicorn
 Pillow
 langchain==0.0.279
 pypdf
-chromadb==0.4.8
+chromadb==3.35.0
 tiktoken
 pandas==1.5.3
 pyarrow==9.0.0
