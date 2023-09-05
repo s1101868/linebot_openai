@@ -44,7 +44,7 @@ def send_message(query=None):
         if query == None:
             break
         result = qa({"question": query + '(用繁體中文回答)', "chat_history": chat_history})
-        print('A:', result['answer'])
+        return TextSendMessage(result['answer'])
         chat_history.append((query, result['answer']))
     return TextSendMessage(result)
    
