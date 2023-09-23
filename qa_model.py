@@ -27,6 +27,7 @@ def send_message(query=None):
 
     # 指定檔案路徑
     file_path = "test.csv"  # 請更換為您的 CSV 文件路徑
+    file_path = "test1.csv"
 
     # 建立加載器並加載文本
     loader = CSVLoader(file_path)
