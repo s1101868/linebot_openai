@@ -8,5 +8,6 @@ pypdf
 chromadb==0.3.29
 tiktoken
 pandas==1.5.3
-pyarrow==9.0.0
+pyarrow
 psutil
+pip install --upgrade pip
