@@ -10,4 +10,4 @@ tiktoken
 pandas==1.5.3
 pyarrow
 psutil
-pip install --upgrade pip
+
